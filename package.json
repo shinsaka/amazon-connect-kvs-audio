@@ -1,7 +1,7 @@
 {
   "name": "amazon-connect-kvs-audio",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": ".lib/index.js",
   "directories": {
     "lib": "lib"
@@ -33,8 +33,5 @@
   "bugs": {
     "url": "https://github.com/shinsaka/amazon-connect-kvs-audio/issues"
   },
-  "homepage": "https://github.com/shinsaka/amazon-connect-kvs-audio#readme",
-  "devDependencies": {
-    "dual-publish": "^3.0.1"
-  }
+  "homepage": "https://github.com/shinsaka/amazon-connect-kvs-audio#readme"
 }
