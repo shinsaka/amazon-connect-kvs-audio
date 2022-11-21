@@ -1,0 +1,41 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-kinesis-video": "^3.210.0",
+    "@aws-sdk/client-kinesis-video-media": "^3.210.0",
+    "ebml-stream": "^1.0.3",
+    "wavefile": "^11.0.0"
+  },
+  "name": "amazon-connect-kvs-audio",
+  "description": "Get the contents of the audio stream output from Amazon Connect to KinesisVideoStreams in a general audio format.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinsaka/amazon-connect-kvs-audio.git"
+  },
+  "keywords": [
+    "amazon-connect",
+    "kinesis-video-streams",
+    "wav",
+    "wave",
+    "wavefile",
+    "RIFF"
+  ],
+  "author": "shinsaka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shinsaka/amazon-connect-kvs-audio/issues"
+  },
+  "homepage": "https://github.com/shinsaka/amazon-connect-kvs-audio#readme"
+}
