@@ -1,14 +1,15 @@
 {
   "name": "amazon-connect-kvs-audio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "dependencies": {
-    "@aws-sdk/client-kinesis-video": "^3.210.0",
-    "@aws-sdk/client-kinesis-video-media": "^3.210.0",
+    "@aws-sdk/client-kinesis-video": "^3.391.0",
+    "@aws-sdk/client-kinesis-video-archived-media": "^3.391.0",
+    "@aws-sdk/client-kinesis-video-media": "^3.391.0",
     "ebml-stream": "^1.0.3",
     "wavefile": "^11.0.0"
   },
