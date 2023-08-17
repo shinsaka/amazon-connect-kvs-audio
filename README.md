@@ -43,8 +43,7 @@ fs.writeFileSync('sample.wav', wavData);
 - Use parameters streamArn, startTimestamp and endTimestamp
 
 ```js:with_fragmentlist.js
-import { getRawSamples, getWaveData} from "amazon-connect-kvs-audio";
-import { getFragments, getMediaPayloadWithFragmentList } from "amazon-connect-kvs-audio";
+import { getFragments, getMediaPayloadWithFragmentList, getSamples, getWaveData } from "amazon-connect-kvs-audio";
 import fs from "fs";
 
 const streamArn = 'arn:aws:kinesisvideo:ap-northeast-1:123456789012:stream/stream-name-00000000/000000000';
@@ -57,7 +56,7 @@ console.log(`${fragments.length} fragments found.`);
 const fragmentNumbers = fragments.map(fragment => fragment.FragmentNumber);  // ['<flagmentNumber>', ...]
 const payload = await getMediaPayloadWithFragmentList(streamArn, fragmentNumbers);
 
-const rawSamples = await getRawSamples(payload);
+const rawSamples = await getSamples(payload);
 console.log(`audio to customer data length = ${rawSamples.AUDIO_TO_CUSTOMER.length}`);
 console.log(`audio from customer data length = ${rawSamples.AUDIO_FROM_CUSTOMER.length}`);
 
@@ -71,15 +70,14 @@ console.log(`sample.wav ${wavData.length} bytes written.`);
 - Use parameters streamArn, startFragmentNumber
 
 ```js:with_startfragmentnumber.js
-import { getRawSamples, getWaveData} from "amazon-connect-kvs-audio";
-import { getMediaPayload } from "amazon-connect-kvs-audio";
+import { getMediaPayload, getSamples, getWaveData } from "amazon-connect-kvs-audio";
 import fs from "fs";
 
 const streamArn = 'arn:aws:kinesisvideo:ap-northeast-1:123456789012:stream/stream-name-00000000/000000000';
 const startFragment = '00000000000000000000000000000000000000000000000';
 
 const payload = await getMediaPayload(streamArn, startFragment);
-const rawSamples = await getRawSamples(payload);
+const rawSamples = await getSamples(payload);
 console.log(`audio to customer data length = ${rawSamples.AUDIO_TO_CUSTOMER.length}`);
 console.log(`audio from customer data length = ${rawSamples.AUDIO_FROM_CUSTOMER.length}`);
 
