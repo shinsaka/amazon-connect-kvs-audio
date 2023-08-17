@@ -10,25 +10,53 @@ Works with ES Modules.
 
 ## usage sample
 
-```sample.js
-import { getRawSamples, getWaveData } from "amazon-connect-kvs-audio";
+```js
+import { getRawSamples, getWaveData} from "./lib/kvs-audio-lib.js";
+import { getMediaPayload } from "./lib/kvs-audio-lib.js";
+import { getFragments, getMediaPayloadWithFragmentList } from "./lib/kvs-audio-lib.js";
 import fs from "fs";
 
-/*
- arguments:
-   1. an Arn of the KinesisVideoStream
-   2. a fragment number
-*/
-const rawSamples = await getRawSamples(
-    "arn:aws:kinesisvideo:ap-northeast-1:123456789012:stream/my-stream-name/0000000000000",
-    "00000000000000000000000000000000000000000000000"
-)
+// with FragmentList
+// use parameters streamArn, startTimestamp and endTimestamp
+{
+    console.log('** start with FragmentList');
 
-// pass data got above to getWaveData(), and write the result to a file.
-const wavData = getWaveData(rawSamples);
-fs.writeFileSync('sample.wav', wavData);
+    const streamArn = 'arn:aws:kinesisvideo:ap-northeast-1:123456789012:stream/stream-name-00000000/000000000';
+    const startTimestamp = new Date('2023-08-17T00:30:00Z');
+    const endTimestamp = new Date('2023-08-17T00:35:15Z');
+
+    const fragments = await getFragments(streamArn, startTimestamp, endTimestamp);
+    console.log(`${fragments.length} fragments found.`);
+
+    const fragmentNumbers = fragments.map(fragment => fragment.FragmentNumber);  // ['<flagmentNumber>', ...]
+    const payload = await getMediaPayloadWithFragmentList(streamArn, fragmentNumbers);
+    const rawSamples = await getRawSamples(payload);
+    console.log(`audio to customer data length = ${rawSamples.AUDIO_TO_CUSTOMER.length}`);
+    console.log(`audio from customer data length = ${rawSamples.AUDIO_FROM_CUSTOMER.length}`);
+
+    const wavData = getWaveData(rawSamples);
+    fs.writeFileSync('sample.wav', wavData);
+    console.log(`sample.wav ${wavData.length} bytes written.`);
+}
+
+// with FragmentNumber
+// use parameters streamArn and startFragment
+{
+    console.log('** start with FragmentNumber');
+
+    const streamArn = 'arn:aws:kinesisvideo:ap-northeast-1:123456789012:stream/stream-name-00000000/000000000';
+    const startFragment = '00000000000000000000000000000000000000000000000';
+
+    const payload = await getMediaPayload(streamArn, startFragment);
+    const rawSamples = await getRawSamples(payload);
+    console.log(`audio to customer data length = ${rawSamples.AUDIO_TO_CUSTOMER.length}`);
+    console.log(`audio from customer data length = ${rawSamples.AUDIO_FROM_CUSTOMER.length}`);
+
+    const wavData = getWaveData(rawSamples);
+    fs.writeFileSync('sample_fragmentnumber.wav', wavData);
+    console.log(`sample.wav ${wavData.length} bytes written.`);
+}
 ```
-
 
 ## Set up Amazon Connect
 
