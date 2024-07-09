@@ -86,6 +86,40 @@ fs.writeFileSync('sample_fragmentnumber.wav', wavData);
 console.log(`sample.wav ${wavData.length} bytes written.`);
 ```
 
+### ver 0.3.0
+
+This is the only way to use it that supports more than 1000 fragment data.
+This is the recommended usage.
+
+#### With FragmentList
+
+- Use parameters streamArn, startTimestamp and endTimestamp
+
+```js:with_fragmentlist.js
+import { getFragments, getSamplesWithFragmentList, getWaveData } from "amazon-connect-kvs-audio";
+import fs from "fs";
+
+const streamArn = 'arn:aws:kinesisvideo:ap-northeast-1:123456789012:stream/stream-name-00000000/000000000';
+const startTimestamp = new Date('2023-08-17T00:30:00Z');
+const endTimestamp = new Date('2023-08-17T00:35:15Z');
+const fragments = await getFragments(
+  streamArn,
+  startTimestamp,
+  endTimestamp
+);
+console.log(`${fragments.length} fragments found.`);
+
+const fragmentNumbers = fragments.map(fragment => fragment.FragmentNumber);  // ['<flagmentNumber>', ...]
+
+const rawSamples = await getSamplesWithFragmentList(streamArn, fragmentNumbers);
+console.log(`audio to customer data length = ${rawSamples.AUDIO_TO_CUSTOMER.length}`);
+console.log(`audio from customer data length = ${rawSamples.AUDIO_FROM_CUSTOMER.length}`);
+
+const wavData = getWaveData(rawSamples);
+fs.writeFileSync('sample.wav', wavData);
+console.log(`sample.wav ${wavData.length} bytes written.`);
+```
+
 ## Set up Amazon Connect
 
 1. Put a block "Start media streaming" in the flow of the contact flow.
